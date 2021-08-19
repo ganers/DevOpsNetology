@@ -1,7 +1,7 @@
 # DevOpsNetology
 Course DevOps from Netology
 
-- **/.terraform/* - папка .terraform
+- ***/.terraform/* - папка .terraform
 - *.tfstate - все файлы с расширением .tfstate
 - *.tfstate.* - файлы в именах которых встречается .tfstate.
 - crash.log - все файлы crash.log
