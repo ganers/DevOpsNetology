@@ -11,4 +11,4 @@ Course DevOps from Netology
 - *_override.tf - все файлы заканчивающиеся на _override.tf
 - *_override.tf.json - все файлы заканчивающиеся на _override.tf.json
 - .terraformrc - файлы с расширением .terraformrc в этой директории
-- terraform.rc - файл terraform.rc
+- terraform.rc - файл terraform.rcFirst new line in FIX branch
