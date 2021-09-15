@@ -18,9 +18,21 @@
      CGroup: /system.slice/node_exporter.service
              └─615 /usr/local/bin/node_exporter
    ```
-   ```
-   Предусмотреть возможность добавления опций к запускаемому процессу через внешний файл!!!
-   В 'systemctl cat cron' имеется ввиду параметр EnvironmentFile ???
+   ```node_exporter.service
+   vagrant@vagrant:~$ cat /etc/systemd/system/node_exporter.service
+   [Unit]
+   Description=Node Exporter
+   After=network.target
+
+   [Service]
+   User=node_exporter
+   Group=node_exporter
+   Type=symple
+   ExecStart=/usr/local/bin/node_exporter
+   EnvironmentFile=-/etc/node_exporter.cfg
+
+   [Install]
+   WantedBy=multi-user.target
    ```
 
 2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
