@@ -13,7 +13,7 @@ HOST: stackoverflow.com
 - В ответе укажите полученный HTTP код, что он означает?
   
    #### Ответ:
-   ```
+   ```  
     vagrant@vagrant:~$ telnet stackoverflow.com 80
     Trying 151.101.65.69...
     Connected to stackoverflow.com.
@@ -40,6 +40,8 @@ HOST: stackoverflow.com
     Set-Cookie: prov=8f77db8f-84f6-577f-a8f9-fdd7fde85fad; domain=.stackoverflow.com; expires=Fri, 01-Jan-2055 00:00:00 GMT; path=/; HttpOnly
     
     Connection closed by foreign host.
+  
+    P.s. HTTP/1.1 301 Moved Permanently - означает редирект на https://stackoverflow.com/questions 
    ```
    
 2. Повторите задание 1 в браузере, используя консоль разработчика F12.
@@ -51,7 +53,7 @@ HOST: stackoverflow.com
 - приложите скриншот консоли браузера в ответ.
   
     ```
-   Не свовсем понял что какой код надо в ответ вставить. Статус код или все заглловки. Прикрепил все.
+   Не свовсем понял что какой код надо в ответ вставить. Статус код или все заголовки. Прикрепил все.
   
    Первый запрос обрабатывается дольше всего.
   
