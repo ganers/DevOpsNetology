@@ -56,9 +56,9 @@ HOST: stackoverflow.com
    Не свовсем понял что какой код надо в ответ вставить. Статус код или все заголовки. Прикрепил все.
   
    Первый запрос обрабатывается дольше всего.
-  
-   [Ссылка на скрин](https://cloud.mail.ru/public/fixy/DxSbx1Xpx)
    ```
+    [Ссылка на скрин](https://cloud.mail.ru/public/fixy/DxSbx1Xpx)
+
    #### Ответ:
    ```
     uest URL: https://stackoverflow.com/
