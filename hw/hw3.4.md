@@ -28,8 +28,8 @@
    User=node_exporter
    Group=node_exporter
    Type=symple
-   ExecStart=/usr/local/bin/node_exporter
    EnvironmentFile=-/etc/node_exporter.cfg
+   ExecStart=/usr/local/bin/node_exporter $ARGS
 
    [Install]
    WantedBy=multi-user.target
