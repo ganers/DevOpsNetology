@@ -189,7 +189,7 @@ show bgp x.x.x.x/32
 
    #### Ответ:
    ```
-   
+   https://drive.google.com/file/d/1UA2YQx_OnICz62d1c2E4um-0_DZACoHB/view?usp=sharing
    ```
    
  ---
