@@ -39,15 +39,46 @@
 	```
 
    #### Ответ:
-   ```
+   ```python
+    #!/usr/bin/env python3
    
+    import os
+	
+    path = "~/netology/sysadm-homeworks"
+    bash_command = [f"cd {path}", "git status"]
+    result_os = os.popen(' && '.join(bash_command)).read()
+    is_change = False
+    for result in result_os.split('\n'):
+    	if result.find('modified') != -1:
+    		prepare_result = result.replace('\tmodified:   ', '')
+    		print(path + "/" + prepare_result)
    ```
    
 3. Доработать скрипт выше так, чтобы он мог проверять не только локальный репозиторий в текущей директории, а также умел воспринимать путь к репозиторию, который мы передаём как входной параметр. Мы точно знаем, что начальство коварное и будет проверять работу этого скрипта в директориях, которые не являются локальными репозиториями.
 
    #### Ответ:
-   ```
-   
+   ```python
+    #!/usr/bin/env python3
+    
+    import os
+    import sys
+
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+    else:
+        #путь к репозиторию по умолчанию
+        path = "~/netology/sysadm-homeworks"
+
+    if os.path.isdir(path + "/.git") == True:
+        bash_command = [f"cd {path}", "git status"]
+        result_os = os.popen(' && '.join(bash_command)).read()
+        is_change = False
+        for result in result_os.split('\n'):
+            if result.find('modified') != -1:
+                prepare_result = result.replace('\tmodified:   ', '')
+                print(path + "/" + prepare_result)
+    else:
+        print(f"{path} не является рпеозиторием")
    ```
    
 4. Наша команда разрабатывает несколько веб-сервисов, доступных по http. Мы точно знаем, что на их стенде нет никакой балансировки, кластеризации, за DNS прячется конкретный IP сервера, где установлен сервис. Проблема в том, что отдел, занимающийся нашей инфраструктурой очень часто меняет нам сервера, поэтому IP меняются примерно раз в неделю, при этом сервисы сохраняют за собой DNS имена. Это бы совсем никого не беспокоило, если бы несколько раз сервера не уезжали в такой сегмент сети нашей компании, который недоступен для разработчиков. Мы хотим написать скрипт, который опрашивает веб-сервисы, получает их IP, выводит информацию в стандартный вывод в виде: <URL сервиса> - <его IP>. Также, должна быть реализована возможность проверки текущего IP сервиса c его IP из предыдущей проверки. Если проверка будет провалена - оповестить об этом в стандартный вывод сообщением: [ERROR] <URL сервиса> IP mismatch: <старый IP> <Новый IP>. Будем считать, что наша разработка реализовала сервисы: drive.google.com, mail.google.com, google.com.
