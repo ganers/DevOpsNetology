@@ -84,8 +84,45 @@
 4. Наша команда разрабатывает несколько веб-сервисов, доступных по http. Мы точно знаем, что на их стенде нет никакой балансировки, кластеризации, за DNS прячется конкретный IP сервера, где установлен сервис. Проблема в том, что отдел, занимающийся нашей инфраструктурой очень часто меняет нам сервера, поэтому IP меняются примерно раз в неделю, при этом сервисы сохраняют за собой DNS имена. Это бы совсем никого не беспокоило, если бы несколько раз сервера не уезжали в такой сегмент сети нашей компании, который недоступен для разработчиков. Мы хотим написать скрипт, который опрашивает веб-сервисы, получает их IP, выводит информацию в стандартный вывод в виде: <URL сервиса> - <его IP>. Также, должна быть реализована возможность проверки текущего IP сервиса c его IP из предыдущей проверки. Если проверка будет провалена - оповестить об этом в стандартный вывод сообщением: [ERROR] <URL сервиса> IP mismatch: <старый IP> <Новый IP>. Будем считать, что наша разработка реализовала сервисы: drive.google.com, mail.google.com, google.com.
 
    #### Ответ:
-   ```
-   
+   ```python
+   #!/usr/bin/env python3
+
+    import sys
+    import socket
+    
+    is_checking = False
+    
+    for arg in sys.argv:
+        is_checking = True if arg == '-ch' else False
+    
+    db_file_path = "db_file.txt"
+    
+    def get_list_services(file_path):
+        services_list = {}
+        with open(file_path, 'r') as services_db:
+            lines = services_db.readlines()
+            for srv_line in lines:
+                service = srv_line.split(":")
+                services_list[service[0]] = service[1].strip('\n')
+        return services_list
+    
+    def save_list_services(file_path, services_list):
+        with open(file_path, 'w') as services_db:
+            for service in services_list:
+                line_in = f"{service}:{services_list[service]}\n"
+                services_db.write(line_in)
+    
+    services = get_list_services(db_file_path)
+    
+    for service in services:
+        current_ip = socket.gethostbyname(service)
+        print(f"{service} - {current_ip}")
+    
+        if is_checking and current_ip != services[service]:
+                print(f"[ERROR] {service} IP mismatch: {services[service]} {current_ip}")
+                services[service] = current_ip
+    
+    save_list_services(db_file_path, services)
    ```
    
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
