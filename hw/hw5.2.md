@@ -19,8 +19,8 @@
 
    #### Ответ:
    ```
-  Ansible написан на популярном языке Python и имеет большое количество компонентов и большое сообщество. Прост в установке.
-  Мне кажеться более надежным метод работы pull, но более удобный метод push, т.к. для его работы нет необходимости устанавливать агентов на управляемые машины.
+  Ansible использует существующую SSH инфраструктуру.
+  Не представляю как определить какой метод работы более надежный, более удобный метод push, т.к. для его работы нет необходимости устанавливать агентов на управляемые машины.
    ```
 
 ## Задача 3
@@ -74,5 +74,25 @@ docker ps
 
    #### Ответ:
    ```
+   P.S. Не получилось установить Docker, что то ему не понравилось...
   
+  ... ... ...
+  ... ... ...
+  ... ... ... 
+      server1.netology: /vagrant => /home/ganers/Документы/Dev/DevOpsNetology/HomeWork/Practic/HW 5.2/vagrant
+  ==> server1.netology: Running provisioner: ansible...
+  Vagrant has automatically selected the compatibility mode '2.0'
+  according to the Ansible version installed (2.9.6).
+  
+  Alternatively, the compatibility mode can be specified in your Vagrantfile:
+  https://www.vagrantup.com/docs/provisioning/ansible_common.html#compatibility_mode
+  
+      server1.netology: Running ansible-playbook...
+  [WARNING]: Could not match supplied host pattern, ignoring: node
+  
+  PLAY [node] ********************************************************************
+  skipping: no hosts matched
+  
+  PLAY RECAP *********************************************************************
+
    ```
