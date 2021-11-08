@@ -80,6 +80,17 @@ Hey, Netology
 
 #### Ответ:
     ```
+    docker run -d -v /data:/data centos
+    docker run -d -v /data:/data debian
+    docker exec -it <centos container name|id> /bin/bash
+        touch /data/file
+        echo "Hello world" > /data/file
+    touch /data/fileFromHost
+        echo "Hellow from host" > /data/fileFromHost
+    docker exec -it <debian container name|id> /bin/bash
+        ls -l /data
+        cat /data/file
+        cat /data/fileFromHost
     ```
 
 ## Задача 4 (*)
