@@ -74,25 +74,49 @@ docker ps
 
    #### Ответ:
    ```
-   P.S. Не получилось установить Docker, что то ему не понравилось...
-  
-  ... ... ...
-  ... ... ...
-  ... ... ... 
-      server1.netology: /vagrant => /home/ganers/Документы/Dev/DevOpsNetology/HomeWork/Practic/HW 5.2/vagrant
-  ==> server1.netology: Running provisioner: ansible...
-  Vagrant has automatically selected the compatibility mode '2.0'
-  according to the Ansible version installed (2.9.6).
-  
-  Alternatively, the compatibility mode can be specified in your Vagrantfile:
-  https://www.vagrantup.com/docs/provisioning/ansible_common.html#compatibility_mode
-  
-      server1.netology: Running ansible-playbook...
-  [WARNING]: Could not match supplied host pattern, ignoring: node
-  
-  PLAY [node] ********************************************************************
-  skipping: no hosts matched
-  
-  PLAY RECAP *********************************************************************
+   P.s. При первом чистом запуске выдается такая ошибка:
+   
+    TASK [Gathering Facts] *********************************************************
+    fatal: [server1.netology]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname 5.2/src/vagrant/.vagrant/machines/server1.netology/virtualbox/private_key: Name or service not known", "unreachable": true}
+    
+    PLAY RECAP *********************************************************************
+    server1.netology           : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+    
+    Ansible failed to complete successfully. Any error output should be
+    visible above. Please fix these errors and try again.
+    
+   P.s. После vagrant destroy (в корне все равно остается папка .vagrant) новый запуск проходит без ошибок. Я пробовал создавать паралельно еще одну машину и есть у меня подозрение, что проблемы были из-за того что мы используем маппинг портов для виртуалбокса!!!
+    ---------------------------------------------------------------------------------
+   
+    erver1.netology: Running ansible-playbook...
 
+    PLAY [nodes] *******************************************************************
+    
+    TASK [Gathering Facts] *********************************************************
+    ok: [server1.netology]
+    
+    TASK [Create directory for ssh-keys] *******************************************
+    changed: [server1.netology]
+    
+    TASK [Adding rsa-key in /root/.ssh/authorized_keys] ****************************
+    changed: [server1.netology]
+    
+    TASK [Checking DNS] ************************************************************
+    changed: [server1.netology]
+    
+    TASK [Installing tools] ********************************************************
+    ok: [server1.netology] => (item=['git', 'curl'])
+    
+    TASK [Installing docker] *******************************************************
+    changed: [server1.netology]
+    
+    TASK [Add the current user to docker group] ************************************
+    changed: [server1.netology]
+    
+    PLAY RECAP *********************************************************************
+server1.netology           : ok=7    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    ---------------------------------------------------------------------------------
+    
+    vagrant@server1:~$ docker --version
+    Docker version 20.10.10, build b485636
    ```
