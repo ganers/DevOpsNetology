@@ -26,7 +26,7 @@ https://cloud.mail.ru/public/UN5Q/uKtoY5AWi
 
 #### Ответ:
 ```
-
+https://cloud.mail.ru/public/J3Sp/mh7QdomMX
 ```
 
 ## Задача 3
@@ -41,7 +41,7 @@ https://cloud.mail.ru/public/UN5Q/uKtoY5AWi
 
 #### Ответ:
 ```
-
+https://cloud.mail.ru/public/CeGm/P3R9zgUaP
 ```
 
 ## Задача 4 (*)
@@ -53,5 +53,5 @@ https://cloud.mail.ru/public/UN5Q/uKtoY5AWi
 
 #### Ответ:
 ```
-
+Вторую ВМ я создал. Что делать дальше я не знаю. Предполагаю, что надо на нее установить node-exporter и каким то макаром добавить счетчики на prometheus. Никогда не работал с этими инструментами, нам никто не показывал как с ними работать.
 ```
