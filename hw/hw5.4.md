@@ -21,7 +21,7 @@ https://cloud.mail.ru/public/UN5Q/uKtoY5AWi
 - Скриншот страницы свойств созданной ВМ, как на примере ниже:
 
 <p align="center">
-  <img width="1200" height="600" src="./assets/yc_01.png">
+  <img width="1200" height="600" src="https://github.com/netology-code/virt-homeworks/tree/virt-11/05-virt-04-docker-compose/assets/yc_01.png">
 </p>
 
 #### Ответ:
@@ -36,7 +36,7 @@ https://cloud.mail.ru/public/J3Sp/mh7QdomMX
 Для получения зачета, вам необходимо предоставить:
 - Скриншот работающего веб-интерфейса Grafana с текущими метриками, как на примере ниже
 <p align="center">
-  <img width="1200" height="600" src="./assets/yc_02.png">
+  <img width="1200" height="600" src="https://github.com/netology-code/virt-homeworks/tree/virt-11/05-virt-04-docker-compose/assets/yc_02.png">
 </p>
 
 #### Ответ:
