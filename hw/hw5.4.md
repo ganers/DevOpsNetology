@@ -12,7 +12,7 @@
   <img width="1200" height="600" src="./img/HW5.4/yandex.cloud.image.list.PNG">
 </p>
 <p align="center">
-  <img width="1200" height="600" src="./img/HW5.4/yc_compute_image_list.PNG">
+  <img width="937" height="135" src="./img/HW5.4/yc_compute_image_list.PNG">
 </p>
 ```
 https://cloud.mail.ru/public/bvL6/gWuZbskr3
