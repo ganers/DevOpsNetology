@@ -8,6 +8,12 @@
 - Скриншот страницы, как на слайде из презентации (слайд 37).
 
 #### Ответ:
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.4/yandex.cloud.image.list.PNG">
+</p>
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.4/yc_compute_image_list.PNG">
+</p>
 ```
 https://cloud.mail.ru/public/bvL6/gWuZbskr3
 https://cloud.mail.ru/public/UN5Q/uKtoY5AWi
@@ -21,6 +27,9 @@ https://cloud.mail.ru/public/UN5Q/uKtoY5AWi
 - Скриншот страницы свойств созданной ВМ, как на примере ниже:
 
 #### Ответ:
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.4/yandex.cloud.vm.PNG">
+</p>
 ```
 https://cloud.mail.ru/public/J3Sp/mh7QdomMX
 ```
@@ -33,6 +42,9 @@ https://cloud.mail.ru/public/J3Sp/mh7QdomMX
 - Скриншот работающего веб-интерфейса Grafana с текущими метриками, как на примере ниже
 
 #### Ответ:
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.4/yc_monitor_services.PNG">
+</p>
 ```
 https://cloud.mail.ru/public/CeGm/P3R9zgUaP
 ```
@@ -45,6 +57,9 @@ https://cloud.mail.ru/public/CeGm/P3R9zgUaP
 - Скриншот из Grafana, на котором будут отображаться метрики добавленного вами сервера.
 
 #### Ответ:
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.4/node02_grafana.PNG">
+</p>
 ```
 https://cloud.mail.ru/public/Rxsa/4bvDWr6kJ
 ```
