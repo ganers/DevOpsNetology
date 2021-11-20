@@ -26,9 +26,9 @@ docker node ls
 ```
 
 #### Ответ:
-```
-
-```
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.5/docker_node_ls.PNG">
+</p>
 
 ## Задача 3
 
@@ -40,9 +40,9 @@ docker service ls
 ```
 
 #### Ответ:
-```
-
-```
+<p align="center">
+  <img width="1200" height="600" src="./img/HW5.5/docker_service_ls.PNG">
+</p>
 
 ## Задача 4 (*)
 
@@ -54,5 +54,5 @@ docker swarm update --autolock=true
 
 #### Ответ:
 ```
-
+Дополнительное шифрование ключей используемых для шифрования каналов связи между узлами кластера и журнаолов raft.
 ```
