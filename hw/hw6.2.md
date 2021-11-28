@@ -12,7 +12,7 @@
 
 Приведите получившуюся команду или docker-compose манифест.
 
-####Ответ:
+#### Ответ:
 ```
 docker run -itd -e POSTGRES_PASSWORD=netology -e PGDATA=/postgres_db/data --expose 5432 -p 5432:5432 -v /home/ganers/docker/volumes/postgres_db:/postgres_db/data/ -v /home/ganers/docker/volumes/postgres_bac:/postgres_bac postgres:12
 ```
@@ -42,7 +42,7 @@ docker run -itd -e POSTGRES_PASSWORD=netology -e PGDATA=/postgres_db/data --expo
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
 
-####Ответ:
+#### Ответ:
 <p align="center">
   <img width="1200" height="600" src="./img/HW6.2/task2.PNG">
 </p>
