@@ -103,7 +103,143 @@ P.s. Я так понимаю первый запрос должен был вы
 #### Ответ:
 
 ---
+Профилирование
+```
+mysql> show profiles;
++----------+------------+---------------------------------------------------------------------------------------------------+
+| Query_ID | Duration   | Query                                                                                             |
++----------+------------+---------------------------------------------------------------------------------------------------+
+|       20 | 0.00087450 | SELECT ENGINE FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test_db'                         |
+|       21 | 0.00105275 | SELECT Table_schema,Engine,Table_name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test_db' |
+|       22 | 0.00006675 | show profile from query 21                                                                        |
++----------+------------+---------------------------------------------------------------------------------------------------+
+15 rows in set, 1 warning (0.00 sec)
 
+mysql> show profile for query 21;
++--------------------------------+----------+
+| Status                         | Duration |
++--------------------------------+----------+
+| starting                       | 0.000149 |
+| Executing hook on transaction  | 0.000015 |
+| starting                       | 0.000012 |
+| checking permissions           | 0.000009 |
+| Opening tables                 | 0.000486 |
+| init                           | 0.000015 |
+| System lock                    | 0.000014 |
+| optimizing                     | 0.000020 |
+| statistics                     | 0.000107 |
+| preparing                      | 0.000037 |
+| executing                      | 0.000066 |
+| checking permissions           | 0.000029 |
+| end                            | 0.000004 |
+| query end                      | 0.000004 |
+| waiting for handler commit     | 0.000010 |
+| closing tables                 | 0.000013 |
+| freeing items                  | 0.000039 |
+| cleaning up                    | 0.000027 |
++--------------------------------+----------+
+18 rows in set, 1 warning (0.00 sec)
+```
+Engine
+```
+mysql> SELECT Table_schema,Engine,Table_name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test_db';
++--------------+--------+------------+
+| TABLE_SCHEMA | ENGINE | TABLE_NAME |
++--------------+--------+------------+
+| test_db      | InnoDB | orders     |
++--------------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> ALTER TABLE test_db.orders ENGINE=MyISAM;
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE test_db.orders ENGINE=InnoDB;
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SHOW profiles;
++----------+------------+------------------------------------------+
+| Query_ID | Duration   | Query                                    |
++----------+------------+------------------------------------------+
+|        1 | 0.00021400 | set profiling=1                          |
+|        2 | 0.00875950 | ALTER TABLE test_db.orders ENGINE=MyISAM |
+|        3 | 0.01024850 | ALTER TABLE test_db.orders ENGINE=InnoDB |
++----------+------------+------------------------------------------+
+3 rows in set, 1 warning (0.00 sec)
+
+mysql> show profile for query 2;
++--------------------------------+----------+
+| Status                         | Duration |
++--------------------------------+----------+
+| starting                       | 0.000068 |
+| Executing hook on transaction  | 0.000006 |
+| starting                       | 0.000023 |
+| checking permissions           | 0.000006 |
+| checking permissions           | 0.000007 |
+| init                           | 0.000014 |
+| Opening tables                 | 0.000305 |
+| setup                          | 0.000091 |
+| creating table                 | 0.000694 |
+| waiting for handler commit     | 0.000010 |
+| waiting for handler commit     | 0.000985 |
+| After create                   | 0.000269 |
+| System lock                    | 0.000009 |
+| copy to tmp table              | 0.000087 |
+| waiting for handler commit     | 0.000007 |
+| waiting for handler commit     | 0.000008 |
+| waiting for handler commit     | 0.000017 |
+| rename result table            | 0.000043 |
+| waiting for handler commit     | 0.002268 |
+| waiting for handler commit     | 0.000009 |
+| waiting for handler commit     | 0.000822 |
+| waiting for handler commit     | 0.000007 |
+| waiting for handler commit     | 0.001601 |
+| waiting for handler commit     | 0.000008 |
+| waiting for handler commit     | 0.000376 |
+| end                            | 0.000663 |
+| query end                      | 0.000305 |
+| closing tables                 | 0.000005 |
+| waiting for handler commit     | 0.000020 |
+| freeing items                  | 0.000020 |
+| cleaning up                    | 0.000011 |
++--------------------------------+----------+
+31 rows in set, 1 warning (0.00 sec)
+
+mysql> show profile for query 3;
++--------------------------------+----------+
+| Status                         | Duration |
++--------------------------------+----------+
+| starting                       | 0.000097 |
+| Executing hook on transaction  | 0.000004 |
+| starting                       | 0.000016 |
+| checking permissions           | 0.000004 |
+| checking permissions           | 0.000003 |
+| init                           | 0.000010 |
+| Opening tables                 | 0.000160 |
+| setup                          | 0.000039 |
+| creating table                 | 0.000054 |
+| After create                   | 0.003522 |
+| System lock                    | 0.000010 |
+| copy to tmp table              | 0.000063 |
+| rename result table            | 0.000541 |
+| waiting for handler commit     | 0.000009 |
+| waiting for handler commit     | 0.001235 |
+| waiting for handler commit     | 0.000009 |
+| waiting for handler commit     | 0.002266 |
+| waiting for handler commit     | 0.000009 |
+| waiting for handler commit     | 0.001129 |
+| waiting for handler commit     | 0.000025 |
+| waiting for handler commit     | 0.000335 |
+| end                            | 0.000300 |
+| query end                      | 0.000237 |
+| closing tables                 | 0.000005 |
+| waiting for handler commit     | 0.000018 |
+| freeing items                  | 0.000130 |
+| cleaning up                    | 0.000022 |
++--------------------------------+----------+
+27 rows in set, 1 warning (0.00 sec)
+```
 ---
 
 ## Задача 4 
@@ -122,5 +258,10 @@ P.s. Я так понимаю первый запрос должен был вы
 #### Ответ:
 
 ---
-
+```
+innodb_log_file_size 100MB
+innodb_compression_level 9
+innodb_log_buffer_size 1
+innodb_buffer_pool_size "КАК ЗАДАТЬ В ПРОЦЕНТНОМ СООТНОШЕНИИ?"
+```
 ---
