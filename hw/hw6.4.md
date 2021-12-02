@@ -43,6 +43,24 @@
 
 **Приведите в ответе** команду, которую вы использовали для вычисления и полученный результат.
 
+#### Ответ:
+
+---
+```
+select tablename,attname,avg_width from pg_stats where tablename='orders';
+ tablename | attname | avg_width
+-----------+---------+-----------
+ orders    | id      |         4
+ orders    | title   |        16
+ orders    | price   |         4
+ 
+ select max(avg_width) from pg_stats where tablename='orders';
+ max
+-----
+  16
+```
+---
+
 ## Задача 3
 
 Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и
@@ -52,6 +70,32 @@
 Предложите SQL-транзакцию для проведения данной операции.
 
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
+
+#### Ответ:
+
+---
+```
+CREATE TABLE orders_1 (CHECK (price > 499)) INHERITS (orders);
+CREATE TABLE orders_2 (CHECK (price <= 499)) INHERITS (orders);
+
+CREATE OR REPLACE FUNCTION orders_insert_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF ( NEW.price > 499) THEN
+        INSERT INTO orders_1 VALUES (NEW.*);
+    ELSIF ( NEW.price <= 499) THEN
+        INSERT INTO orders_2 VALUES (NEW.*);
+    ELSE
+        INSERT INTO orders VALUES (NEW.*);
+    END IF;
+    RETURN NULL;
+END;
+```
+Чтобы избежать ручного разбиения таблицы можно было бы использовать "декларативное партиционирование".
+
+P.s. Видел на просторах интернета вариант с созданием правил (CREATE RULE) не понял как это работает. МОжет в данном случае всетаки нужно использовать подход с правилами???
+P.P.s. При текущем варианте я так понимаю нам прийдется адресовать запросы разным таблицам. Дайте совет как всетаки правильно разбивать таблицы чтобы обращаться можно было и к партициям и к основной таблице?
+---
 
 ## Задача 4
 
