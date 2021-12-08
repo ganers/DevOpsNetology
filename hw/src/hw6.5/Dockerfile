@@ -8,9 +8,11 @@ RUN sudo yum install wget -y; \
     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.2-linux-x86_64.tar.gz.sha512; \
     shasum -a 512 -c elasticsearch-7.15.2-linux-x86_64.tar.gz.sha512; \
     tar -xzf elasticsearch-7.15.2-linux-x86_64.tar.gz; \
+    useradd elastic -p elastic; \
+    chown -R elastic:elastic el-asticsearch-7.15.2/; \
     cd elasticsearch-7.15.2/; \
 
-CMD ["./bin/elasticsearch"]
+CMD ["su - elastic","./bin/elasticsearch"]
 
 # rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7;\
 # rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; \
