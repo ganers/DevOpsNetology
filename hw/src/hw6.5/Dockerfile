@@ -1,44 +1,27 @@
 # Манифест Docker образа.
 FROM centos:7
 
-RUN sudo yum install wget -y; \
+RUN yum install wget -y --nogpgcheck; \
     wget http://mirror.centos.org/centos/7/os/x86_64/Packages/perl-Digest-SHA-5.85-4.el7.x86_64.rpm; \
-    yum install perl-Digest-SHA-5.85-4.el7.x86_64.rpm -y; \
+    yum install perl-Digest-SHA-5.85-4.el7.x86_64.rpm -y --nogpgcheck; \
     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.2-linux-x86_64.tar.gz; \
     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.2-linux-x86_64.tar.gz.sha512; \
     shasum -a 512 -c elasticsearch-7.15.2-linux-x86_64.tar.gz.sha512; \
     tar -xzf elasticsearch-7.15.2-linux-x86_64.tar.gz; \
     useradd elastic -p elastic; \
-    chown -R elastic:elastic el-asticsearch-7.15.2/; \
-    cd elasticsearch-7.15.2/; \
+    usermod -aG wheel elastic; \
+    chown -R elastic:elastic elasticsearch-7.15.2/; \
+    chown -R elastic:elastic /var/lib;
 
-CMD ["su - elastic","./bin/elasticsearch"]
+RUN echo 'node.name: netology_test' >> /elasticsearch-7.15.2/config/elasticsearch.yml;
+RUN echo 'path.data: /var/lib' >> /elasticsearch-7.15.2/config/elasticsearch.yml;
+RUN echo 'network.host: 0.0.0.0' >> /elasticsearch-7.15.2/config/elasticsearch.yml;
+RUN echo 'discovery.seed_hosts: ["0.0.0.0"]' >> /elasticsearch-7.15.2/config/elasticsearch.yml;
+RUN echo 'discovery.type: single-node' >> /elasticsearch-7.15.2/config/elasticsearch.yml;
 
-# rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7;\
-# rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; \
-#
-# rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch; \
-# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch; \
-# yum -y install  java-1.8.0-openjdk;\
-# export JAVA_HOME=/usr/lib/jvm/jre-openjdk;\
-# ### elasticsearch repo
-# echo $'[elasticsearch-5.x]\n\
-# name=Elasticsearch repository for 5.x packages\n\
-# baseurl=https://artifacts.elastic.co/packages/5.x/yum\n\
-# gpgcheck=1\n\
-# gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch\n\
-# enabled=1\n\
-# autorefresh=1\n\
-# type=rpm-md\n\
-# ' | tee /etc/yum.repos.d/elasticsearch.repo; \
-# yum install -y elasticsearch \
-# && yum clean all \
-# # change configuration
-# && sed -i 's/# network.host: 192.168.0.1/network.host: 0.0.0.0/g' /etc/elasticsearch/elasticsearch.yml \
-# && groupadd -r docker && useradd -r -g docker docker; \
-# mkdir -p /usr/share/elasticsearch/{logs,data};\
-# chmod -R 777 /usr/share/elasticsearch/{logs,data};\
-# chgrp -R elasticsearch /usr/share/elasticsearch/{logs,data}
-# EXPOSE 9300 9200
-# ENV JAVA_HOME=/usr/lib/jvm/jre-openjdk
-# CMD ["/usr/share/elasticsearch/bin/elasticsearch","-Epath.conf=/etc/elasticsearch"]
+USER elastic
+
+EXPOSE 9200
+EXPOSE 9300
+
+CMD ["/elasticsearch-7.15.2/bin/elasticsearch"]

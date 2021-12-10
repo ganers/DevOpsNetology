@@ -32,9 +32,30 @@
 Далее мы будем работать с данным экземпляром elasticsearch.
 
 #### Ответ:
+[Ссылка на Dockerfile](https://github.com/ganers/DevOpsNetology/blob/main/hw/src/hw6.5/Dockerfile)
+
+[Ссылка на образ на DockerHub](https://hub.docker.com/repository/docker/ganers/elasticsearch)
 
 ---
 ```
+{
+  "name" : "netology_test",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "0Ms21aWoSLOECCAK2CNzVw",
+  "version" : {
+    "number" : "7.15.2",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "93d5a7f6192e8a1a12e154a2b81bf6fa7309da0c",
+    "build_date" : "2021-11-04T14:04:42.515624022Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.9.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+
 ```
 ---
 
@@ -50,7 +71,7 @@
 
 | Имя | Количество реплик | Количество шард |
 |-----|-------------------|-----------------|
-| ind-1| 0 | 1 |
+| ind-1 | 0 | 1 |
 | ind-2 | 1 | 2 |
 | ind-3 | 2 | 4 |
 
@@ -70,7 +91,54 @@
 #### Ответ:
 
 ---
+Состояние yellow обусловлено тем, что реплики не существуют
 ```
+curl -XGET http://localhost:9200/_cluster/health
+{
+    "cluster_name":"elasticsearch",
+    "status":"yellow",
+    "timed_out":false,
+    "number_of_nodes":1,
+    "number_of_data_nodes":1,
+    "active_primary_shards":8,
+    "active_shards":8,
+    "relocating_shards":0,
+    "initializing_shards":0,
+    "unassigned_shards":10,
+    "delayed_unassigned_shards":0,
+    "number_of_pending_tasks":0,
+    "number_of_in_flight_fetch":0,
+    "task_max_waiting_in_queue_millis":0,
+    "active_shards_percent_as_number":44.44444444444444
+}
+
+root@netologydevops:/home/ganers# curl -XGET http://localhost:9200/_cat/shards
+.geoip_databases 0 p STARTED    42 41.1mb 172.17.0.2 netology_test
+ind-3            2 p STARTED     0   208b 172.17.0.2 netology_test
+ind-3            2 r UNASSIGNED
+ind-3            2 r UNASSIGNED
+ind-3            3 p STARTED     0   208b 172.17.0.2 netology_test
+ind-3            3 r UNASSIGNED
+ind-3            3 r UNASSIGNED
+ind-3            1 p STARTED     0   208b 172.17.0.2 netology_test
+ind-3            1 r UNASSIGNED
+ind-3            1 r UNASSIGNED
+ind-3            0 p STARTED     0   208b 172.17.0.2 netology_test
+ind-3            0 r UNASSIGNED
+ind-3            0 r UNASSIGNED
+ind-1            0 p STARTED     0   208b 172.17.0.2 netology_test
+ind-2            1 p STARTED     0   208b 172.17.0.2 netology_test
+ind-2            1 r UNASSIGNED
+ind-2            0 p STARTED     0   208b 172.17.0.2 netology_test
+ind-2            0 r UNASSIGNED
+
+root@netologydevops:/home/ganers# curl -XGET http://localhost:9200/_cat/indices
+green  open .geoip_databases uQKD9yPyQyeTdk8Qoek-kA 1 0 42 0 41.1mb 41.1mb
+green  open ind-1            TdPrweoNT6a_yuRszWijsg 1 0  0 0   208b   208b
+yellow open ind-3            kqpHvB0JQna-LvOb2UMQVA 4 2  0 0   832b   832b
+yellow open ind-2            l7JZBASkQpyJlU1LTD3wVg 2 1  0 0   416b   416b
+
+curl -XDELETE localhost:9200/_all
 ```
 ---
 
@@ -108,5 +176,51 @@
 
 ---
 ```
+curl -X PUT "localhost:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
+{
+  "type": "fs",
+  "settings": {
+    "location": "/elasticsearch-7.15.2/snapshot/netology_backup",
+    "compress": true
+  }
+}
+'
+{
+  "acknowledged" : true
+}
+
+curl -X GET localhost:9200/_cat/indices
+green open .geoip_databases uQKD9yPyQyeTdk8Qoek-kA 1 0 42 0 41.1mb 41.1mb
+green open test             pYLphD2oSfqY53SeB1HJgQ 1 0  0 0   208b   208b
+
+curl -X PUT "localhost:9200/_snapshot/netology_backup/test_snapshot?pretty"
+{
+  "accepted" : true
+}
+
+[elastic@9500d4ec1260 /]$ ll /elasticsearch-7.15.2/snapshot/netology_backup/
+total 28
+-rw-r--r-- 1 elastic elastic  831 Dec 10 08:47 index-0
+-rw-r--r-- 1 elastic elastic    8 Dec 10 08:47 index.latest
+drwxr-xr-x 4 elastic elastic 4096 Dec 10 08:47 indices
+-rw-r--r-- 1 elastic elastic 9366 Dec 10 08:47 meta-Bwq2K7spS_O9Rv7OMzWm1g.dat
+-rw-r--r-- 1 elastic elastic  354 Dec 10 08:47 snap-Bwq2K7spS_O9Rv7OMzWm1g.dat
+
+root@netologydevops:/home/ganers# curl -X GET localhost:9200/_cat/indices
+green open test-2           3TAOLGvxTgCiqEEKZB5zJA 1 0  0 0   208b   208b
+green open .geoip_databases uQKD9yPyQyeTdk8Qoek-kA 1 0 42 0 41.1mb 41.1mb
+
+curl -X POST "localhost:9200/_snapshot/netology_backup/test_snapshot/_restore?pretty" -H 'Content-Type: application/json' -d'
+{
+  "indices": "test",
+  "feature_states": [ "geoip" ]
+}
+'
+
+curl -X GET localhost:9200/_cat/indices
+green open test-2           3TAOLGvxTgCiqEEKZB5zJA 1 0  0 0   208b   208b
+green open .geoip_databases xO3eDMf2QW2fqtDiuHF6UA 1 0 42 0 41.1mb 41.1mb
+green open test             2pFglBU3T9y-g27MCtymDg 1 0  0 0   208b   208b
+
 ```
 ---
