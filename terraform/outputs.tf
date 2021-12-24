@@ -18,6 +18,6 @@ output "my_sudnet_id" {
   value = aws_subnet.my_subnet.id
 }
 
-output "private_ip" {
-  value = aws_eip.lb.private_ip
-}
+#output "private_ip" {
+#  value = aws_eip.lb.private_ip
+#}
