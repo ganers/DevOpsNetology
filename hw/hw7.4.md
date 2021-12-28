@@ -41,6 +41,9 @@
 #### Ответ:
 
 ---
+[Ссылка на server.yaml](https://github.com/ganers/DevOpsNetology/blob/main/hw/src/hw7.4/server.yaml)
+
+[Ссылка на atlantis.yaml](https://github.com/ganers/DevOpsNetology/blob/main/hw/src/hw7.4/atlantis.yaml)
 
 ---
 

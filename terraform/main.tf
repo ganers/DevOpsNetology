@@ -21,21 +21,39 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-resource "aws_instance" "web" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = local.web_instance_type_map[terraform.workspace]
-  
+//resource "aws_instance" "web" {
+//  ami           = data.aws_ami.ubuntu.id
+//  instance_type = local.web_instance_type_map[terraform.workspace]
+//
+//  count = local.web_instance_count_map[terraform.workspace]
+//
+//}
+//
+//resource "aws_instance" "web-fe" {
+//  for_each = local.instances
+//  ami = each.value
+//  instance_type = each.key
+//
+//  lifecycle {
+//    create_before_destroy = true
+//  }
+//}
+
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance"
+  version = "~> 3.0"
+
   count = local.web_instance_count_map[terraform.workspace]
 
-}
+  name = "web"
 
-resource "aws_instance" "web-fe" {
-  for_each = local.instances
-  ami = each.value
-  instance_type = each.key
+  ami = data.aws_ami.ubuntu.id
+  instance_type = local.web_instance_type_map[terraform.workspace]
+  subnet_id = aws_subnet.my_subnet.id
 
-  lifecycle {
-    create_before_destroy = true
+  tags = {
+    Terraform = "true"
+    Environment = local.ws_tags[terraform.workspace]
   }
 }
 
@@ -85,5 +103,10 @@ locals {
   instances = {
     "t3.micro" = data.aws_ami.ubuntu.id
     "t3.large" = data.aws_ami.ubuntu.id
+  }
+
+  ws_tags = {
+    stage = "stage"
+    prod = "prod"
   }
 }

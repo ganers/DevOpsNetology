@@ -1,0 +1,15 @@
+repos:
+- id: github.com/ganers/DevOpsNetology
+  branch: /.*/
+  apply_requirements: [approved, mergeable]
+  workflow: default
+  allowed_overrides: [workflow]
+
+workflows:
+  default:
+    plan:
+      steps: [init, plan]
+      - plan:
+          extra_args: ["-lock", "false"]
+    apply:
+      steps: [apply]
