@@ -30,6 +30,6 @@
 ---
 
 #### Ответ:
-[Ссылка на workflow Для Bug](https://github.com/ganers/DevOpsNetology/tree/main/hw/src/bug.xml)
+[Ссылка на workflow Для Bug](https://github.com/ganers/DevOpsNetology/blob/main/hw/src/hw9.1/bug.xml)
 
-[Ссылка на workflow Для остальных типов задач](https://github.com/ganers/DevOpsNetology/tree/main/hw/src/other_tasks.xml)
+[Ссылка на workflow Для остальных типов задач](https://github.com/ganers/DevOpsNetology/blob/main/hw/src/hw9.1/other_tasks.xml)
