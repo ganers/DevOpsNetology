@@ -31,4 +31,5 @@
 
 #### Ответ:
 [Ссылка на workflow Для Bug](https://github.com/ganers/DevOpsNetology/tree/main/hw/src/bug.xml)
+
 [Ссылка на workflow Для остальных типов задач](https://github.com/ganers/DevOpsNetology/tree/main/hw/src/other_tasks.xml)
